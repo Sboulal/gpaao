@@ -1,0 +1,7 @@
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/icon.png"   # ← ton icône ici (idéalement 1024x1024)
+  min_sdk_android: 21
+  adaptive_icon_background: "#ffffff"   # ou une couleur
+  adaptive_icon_foreground: "assets/icons/icon.png"
