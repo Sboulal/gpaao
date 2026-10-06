@@ -4,6 +4,7 @@ import 'package:amfrom_app/pages/comite.dart';
 import 'package:amfrom_app/pages/editorial.dart';
 import 'package:amfrom_app/pages/groupe.dart';
 import 'package:amfrom_app/pages/guide.dart';
+import 'package:amfrom_app/pages/calculatrice_page.dart'; // <--- Import dyal l-page jdida
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,15 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   late int _page;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-  final List<Widget> _pages = const [Editorial(), Comite(), Groupe(), Guide()];
+  
+  // Zedt CalculatricePage() f l-kher dyal l-liste
+  final List<Widget> _pages = const [
+    Editorial(), 
+    Comite(), 
+    Groupe(), 
+    Guide(),
+    CalculatricePage() 
+  ];
 
   @override
   void initState() {
@@ -37,7 +46,7 @@ class _MainNavigationState extends State<MainNavigation> {
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,
           index: _page,
-          items: <Widget>[
+          items: const <Widget>[
             Image(
               image: AssetImage('assets/icons/2.png'),
               width: 30,
@@ -58,12 +67,18 @@ class _MainNavigationState extends State<MainNavigation> {
               width: 30,
               height: 30,
             ),
+            // Icône jdida dyal l-calculatrice
+            Icon(
+              Icons.calculate_outlined,
+              size: 30,
+              color: Colors.white,
+            ),
           ],
           color: const Color(0xFF0e1763),
           buttonBackgroundColor: const Color(0xFF0e1763),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent, // mn l-a7san tkon transparent bach maybanch byed m3a l-curved
           animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 600),
+          animationDuration: const Duration(milliseconds: 600),
           onTap: (index) {
             setState(() {
               _page = index;

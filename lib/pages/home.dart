@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:amfrom_app/pages/MainNavigation.dart';
+import 'package:amfrom_app/pages/calculatrice_page.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -26,7 +27,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
@@ -34,7 +35,7 @@ class _HomepageState extends State<Homepage> {
     final isSmall = size.height < 700;
 
     return Scaffold(
-      backgroundColor: Color(0xFF081859),
+      backgroundColor: const Color(0xFF081859),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -48,14 +49,14 @@ class _HomepageState extends State<Homepage> {
             // ================= BANNIERE =================
             Container(
               width: double.infinity,
+              // N9asna mn l'hauteur dyal l'image bach matakhodch espace kbir
               height: isTablet
-                  ? MediaQuery.of(context).size.height * 0.32
+                  ? MediaQuery.of(context).size.height * 0.25
                   : MediaQuery.of(context).size.height *
-                        (isSmall ? 0.24 : 0.28),
-              padding: EdgeInsets.only(top: 40.h, left: 0.w, right: 0.w),
+                        (isSmall ? 0.18 : 0.20),
+              padding: EdgeInsets.only(top: 30.h, left: 0.w, right: 0.w), // N9asna l-padding l-fo9
               child: Column(
                 children: [
-                  // Image Bannière avec arrondi
                   Expanded(
                     child: ClipRRect(
                       child: Image.asset(
@@ -66,8 +67,7 @@ class _HomepageState extends State<Homepage> {
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 8.h),
                 ],
               ),
             ),
@@ -113,13 +113,13 @@ class _HomepageState extends State<Homepage> {
                           Text(
                             "Bienvenue",
                             style: TextStyle(
-                              fontSize: isSmall ? 24.sp : 28.sp,
+                              fontSize: isSmall ? 22.sp : 26.sp,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF0E1763),
                             ),
                           ),
 
-                          SizedBox(height: 4.h),
+                          SizedBox(height: 2.h),
 
                           Text(
                             "Choisissez une rubrique",
@@ -129,7 +129,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
 
-                          SizedBox(height: 10.h),
+                          SizedBox(height: 8.h),
 
                           Container(
                             width: 45.w,
@@ -140,7 +140,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
 
-                          SizedBox(height: isSmall ? 5.h : 0.h),
+                          SizedBox(height: 12.h), // N9asna mn l-espace
 
                           // ================= GRID =================
                           GridView.builder(
@@ -150,28 +150,29 @@ class _HomepageState extends State<Homepage> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  crossAxisSpacing: 15.w,
-                                  mainAxisSpacing: isSmall ? 10.h : 14.h,
-                                  childAspectRatio: isSmall ? 0.95 : 1,
+                                  crossAxisSpacing: 12.w, // N9asna l-espace bin mrab3at
+                                  mainAxisSpacing: isSmall ? 8.h : 10.h,
+                                  // Kberna l-aspect ratio bach iwliw l-mrab3at 9sar f t-toul w i3t9o l-espace
+                                  childAspectRatio: isSmall ? 1.05 : 1.15,
                                 ),
                             itemBuilder: (context, index) {
                               final items = [
-                                CustomGrid(
+                                const CustomGrid(
                                   asset: "assets/icons/2.gif",
                                   page: 0,
                                   label: "Editorial",
                                 ),
-                                CustomGrid(
+                                const CustomGrid(
                                   asset: "assets/icons/3.gif",
                                   page: 1,
                                   label: "Comité",
                                 ),
-                                CustomGrid(
+                                const CustomGrid(
                                   asset: "assets/icons/4.gif",
                                   page: 2,
                                   label: "Groupe de travail",
                                 ),
-                                CustomGrid(
+                                const CustomGrid(
                                   asset: "assets/icons/5.gif",
                                   page: 3,
                                   label: "Guide",
@@ -181,15 +182,95 @@ class _HomepageState extends State<Homepage> {
                             },
                           ),
 
-                          //SizedBox(height: 9.h),
-                          Center(
-                            child: Image.asset(
-                              "assets/images/logoamfrom.png",
-                              height: isSmall ? 32.h : 40.h,
+                          // ================= NOUVELLE SECTION : OUTILS / CALCULATRICE =================
+                          SizedBox(height: 12.h), 
+                          
+                          InkWell(
+                            borderRadius: BorderRadius.circular(14.r),
+onTap: () {
+  // Hna kanmchiw l MainNavigation b initialPage = 4 (li hiya Calculatrice)
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (_) => const MainNavigation(initialPage: 4)),
+  );
+},
+                            child: Container(
+                              width: double.infinity,
+                              // N9asna mn l-padding l-dakhlani dyal l-bouton
+                              padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF0E1763),
+                                borderRadius: BorderRadius.circular(14.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 5),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(8.w),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.15),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.calculate_outlined, 
+                                      color: Colors.white, 
+                                      size: 24.sp, // Sgharna chwia l'icone
+                                    ),
+                                  ),
+                                  
+                                  SizedBox(width: 15.w),
+                                  
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Outils Cliniques",
+                                          style: TextStyle(
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(height: 2.h),
+                                        Text(
+                                          "Calcul de BSA, Clairance, etc.",
+                                          style: TextStyle(
+                                            fontSize: 10.sp,
+                                            color: Colors.white.withOpacity(0.8),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  
+                                  Icon(
+                                    Icons.arrow_forward_ios, 
+                                    color: Colors.white, 
+                                    size: 14.sp,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
 
-                          SizedBox(height: 6.h),
+                          SizedBox(height: 12.h),
+
+                          // ================= LOGO & VERSION =================
+                          Center(
+                            child: Image.asset(
+                              "assets/images/logoamfrom.png",
+                              height: isSmall ? 28.h : 35.h, // Sgharna l-logo chwia
+                            ),
+                          ),
+
+                          SizedBox(height: 4.h),
 
                           Center(
                             child: Text(
@@ -201,8 +282,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
 
-                          SizedBox(height: 20.h),
-                          SizedBox(height: 20.h),
+                          SizedBox(height: 15.h), // 7ayedna l-espace l-kbir li kan flkher (40.h)
                         ],
                       ),
                     ),
@@ -216,7 +296,6 @@ class _HomepageState extends State<Homepage> {
     );
   }
 }
-
 class CustomGrid extends StatelessWidget {
   final int page;
   final String asset;
@@ -255,7 +334,7 @@ class CustomGrid extends StatelessWidget {
         );
       },
       child: Container(
-        padding: EdgeInsets.all(12.w),
+        padding: EdgeInsets.all(8.w), // N9asna padding mn 12 l 8
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.95),
           borderRadius: BorderRadius.circular(14.r),
@@ -272,8 +351,8 @@ class CustomGrid extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 55.w,
-              height: 55.w,
+              width: 44.w, // Sgharna l-icone mn 55 l 44
+              height: 44.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: const Color(0xFFF3F7FF),
@@ -285,7 +364,7 @@ class CustomGrid extends StatelessWidget {
                 ],
               ),
               child: Padding(
-                padding: EdgeInsets.all(15.w),
+                padding: EdgeInsets.all(10.w), // Sgharna padding d-l'icone mn 15 l 10
                 child: ColorFiltered(
                   colorFilter: const ColorFilter.mode(
                     Color(0xFF0E1763),
@@ -296,19 +375,19 @@ class CustomGrid extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 8.h),
+            SizedBox(height: 6.h), // N9asna l-espace
 
             Text(
               label,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: 14.sp, // Sgharna l-font mn 16 l 14
                 fontWeight: FontWeight.w800,
                 color: const Color(0xFF0E1763),
               ),
             ),
 
-            SizedBox(height: 4.h),
+            SizedBox(height: 2.h), // N9asna l-espace
 
             Text(
               getDescription(),
@@ -316,9 +395,9 @@ class CustomGrid extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 10.sp,
+                fontSize: 9.sp, // Sgharna l-font mn 10 l 9
                 color: Colors.grey.shade700,
-                height: 1.3,
+                height: 1.2, // N9asna l-hauteur de ligne
               ),
             ),
           ],
