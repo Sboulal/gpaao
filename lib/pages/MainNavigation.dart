@@ -4,7 +4,7 @@ import 'package:amfrom_app/pages/comite.dart';
 import 'package:amfrom_app/pages/editorial.dart';
 import 'package:amfrom_app/pages/groupe.dart';
 import 'package:amfrom_app/pages/guide.dart';
-import 'package:amfrom_app/pages/calculatrice_page.dart'; // <--- Import dyal l-page jdida
+import 'package:amfrom_app/pages/favoris_page.dart'; // <--- Bdalna l-import l FavorisPage
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -21,13 +21,13 @@ class _MainNavigationState extends State<MainNavigation> {
   late int _page;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   
-  // Zedt CalculatricePage() f l-kher dyal l-liste
+  // Bdalna CalculatricePage() b FavorisPage() f l-kher dyal l-liste
   final List<Widget> _pages = const [
     Editorial(), 
     Comite(), 
     Groupe(), 
     Guide(),
-    CalculatricePage() 
+    FavorisPage() 
   ];
 
   @override
@@ -67,16 +67,16 @@ class _MainNavigationState extends State<MainNavigation> {
               width: 30,
               height: 30,
             ),
-            // Icône jdida dyal l-calculatrice
+            // Bdalna l-icone dyal l-calculatrice b icone dyal l-favoris (Marque-page)
             Icon(
-              Icons.calculate_outlined,
+              Icons.bookmark_border,
               size: 30,
               color: Colors.white,
             ),
           ],
           color: const Color(0xFF0e1763),
           buttonBackgroundColor: const Color(0xFF0e1763),
-          backgroundColor: Colors.transparent, // mn l-a7san tkon transparent bach maybanch byed m3a l-curved
+          backgroundColor: Colors.transparent, 
           animationCurve: Curves.easeInOut,
           animationDuration: const Duration(milliseconds: 600),
           onTap: (index) {

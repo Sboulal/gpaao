@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:amfrom_app/widget/menu.dart';
 import 'package:amfrom_app/data/chapters.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // <--- Zidna l-import hna
 
 class DynamicChapterPage extends StatefulWidget {
   final ChapterConfig config;
@@ -16,27 +17,66 @@ class DynamicChapterPage extends StatefulWidget {
 }
 
 class _DynamicChapterPageState extends State<DynamicChapterPage> {
+  bool isFavorite = false; // <--- Variable bach n3erfo wach m-sauvegarder wla la
+
   @override
   void initState() {
     super.initState();
+    _checkIfFavorite(); // <--- Kan9elbo wach had l-page deja f favoris mli kat-t7el
 
     if (widget.config.pdfPath != null) {
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (!mounted) return;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
 
-    Navigator.pushReplacementNamed(
-      context,
-      'pdfMenu',
-      arguments: MenuConfig(
-        title: widget.config.title,
-        pdfPath: widget.config.pdfPath!,
-        backRoute: widget.config.route,
-        color: widget.config.color,
+        Navigator.pushReplacementNamed(
+          context,
+          'pdfMenu',
+          arguments: MenuConfig(
+            title: widget.config.title,
+            pdfPath: widget.config.pdfPath!,
+            backRoute: widget.config.route,
+            color: widget.config.color,
+          ),
+        );
+      });
+    }
+  }
+
+  // ================= LOGIQUE DYAL FAVORIS =================
+  Future<void> _checkIfFavorite() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> favs = prefs.getStringList('favoris') ?? [];
+    setState(() {
+      isFavorite = favs.contains(widget.config.title); // Kan-sauvegardew b l-title (ex: "CANCERS DU SEIN")
+    });
+  }
+
+  Future<void> _toggleFavorite() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> favs = prefs.getStringList('favoris') ?? [];
+
+    if (isFavorite) {
+      favs.remove(widget.config.title); // Ila kan, kan7iydoh
+    } else {
+      favs.add(widget.config.title); // Ila makanch, kanzidoh
+    }
+
+    await prefs.setStringList('favoris', favs); // Kan-enregistriw f t-tilifon
+
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+
+    // Message sghir kitle3 l-te7t (SnackBar)
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(isFavorite ? "Ajouté aux favoris" : "Retiré des favoris"),
+        backgroundColor: widget.config.color,
+        duration: const Duration(seconds: 2),
       ),
     );
-  });
-}
   }
+  // =======================================================
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +113,9 @@ class _DynamicChapterPageState extends State<DynamicChapterPage> {
               ),
               child: Column(
                 children: [
+                  // ================= HEADER M3A BOUTON FAVORIS =================
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // <--- Bach nfar9ohom
                     children: [
                       InkWell(
                         onTap: () => Navigator.pop(context),
@@ -83,8 +125,18 @@ class _DynamicChapterPageState extends State<DynamicChapterPage> {
                           size: 30.sp,
                         ),
                       ),
+                      // L-bouton jdid dyal Favoris li zedna
+                      InkWell(
+                        onTap: _toggleFavorite,
+                        child: Icon(
+                          isFavorite ? Icons.bookmark : Icons.bookmark_border, // Kyt3mer ila kan f favoris
+                          color: widget.config.color,
+                          size: 32.sp,
+                        ),
+                      ),
                     ],
                   ),
+                  // ==============================================================
 
                   SizedBox(height: 10.h),
 
@@ -98,9 +150,7 @@ class _DynamicChapterPageState extends State<DynamicChapterPage> {
                               height: 70.w,
                               fit: BoxFit.contain,
                             ),
-
                             SizedBox(height: 10.h),
-
                             if (widget.config.subtitle != null)
                               Text(
                                 widget.config.subtitle!,
@@ -109,7 +159,6 @@ class _DynamicChapterPageState extends State<DynamicChapterPage> {
                                   fontSize: 13.sp,
                                 ),
                               ),
-
                             Text(
                               widget.config.title,
                               textAlign: TextAlign.center,
@@ -134,7 +183,6 @@ class _DynamicChapterPageState extends State<DynamicChapterPage> {
                                       widget.config.subtitle!,
                                       textAlign: TextAlign.left,
                                     ),
-
                                   Text(
                                     widget.config.title,
                                     textAlign: TextAlign.left,
@@ -147,9 +195,7 @@ class _DynamicChapterPageState extends State<DynamicChapterPage> {
                                 ],
                               ),
                             ),
-
                             SizedBox(width: 12.w),
-
                             Image.asset(
                               widget.config.image,
                               width: 80.w,

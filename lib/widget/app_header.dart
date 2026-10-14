@@ -17,62 +17,69 @@ class AppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSmallScreen = MediaQuery.of(context).size.width < 360;
+    final width = MediaQuery.of(context).size.width;
+    final isSmallScreen = width < 360;
+    final isTablet = width > 600; 
+
+    // 🔥 HNA L-MOCHKIL T7EL: N9esna l-hauteur dyal l-iPad l 90.h bach ytjm3 dak l-faragh z-zre9
+    double headerHeight = isTablet ? 90.h : (isSmallScreen ? 125.h : 145.h);
+
     return Container(
       padding: EdgeInsets.only(
-        //top: 40.h,
         left: 20.w,
-        right: isSmallScreen ? 40.w : 20.w, // 🔥 FIX IMPORTANT
-        //bottom: 10.h,
+        right: isSmallScreen ? 40.w : 20.w, 
+        // Hbetna l-contenu dyal l-header chwia l-te7t f l-iPad bach mayls9ch f s9ef
+        top: isTablet ? 15.h : 0, 
       ),
       width: double.infinity,
-      height: isSmallScreen ? 125.h : 145.h, // 🔥 réduit sur petits écrans
+      height: headerHeight,
       decoration: BoxDecoration(
         color: backgroundColor,
-        gradient: LinearGradient(colors: [backgroundColor!, backgroundColor!]),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             children: [
               InkWell(
-                onTap: () => Navigator.pushNamed(context, "homepage"),
-                child: Icon(
-                  Icons.arrow_back_ios_new,
-                  color: textColor,
-                  size: isSmallScreen ? 22.sp : 28.sp,
+                onTap: () => Navigator.pushReplacementNamed(context, "homepage"), 
+                child: Padding(
+                  padding: EdgeInsets.only(top: isTablet ? 5.h : 0),
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: textColor,
+                    // 🔥 N9esna l-icone l 12.sp f l-iPad (kat3ti nfss l-7ejm dyal 24 f tilifon)
+                    size: isTablet ? 12.sp : (isSmallScreen ? 22.sp : 28.sp),
+                  ),
                 ),
               ),
               const Spacer(),
             ],
           ),
-
+          
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center, 
               children: [
                 if (assetGif != null)
                   Image.asset(
                     assetGif!,
-                    width: isSmallScreen ? 35.w : 45.w,
-                    height: isSmallScreen ? 35.w : 45.w,
+                    // 🔥 N9esna size dyal l'image f l-iPad
+                    width: isTablet ? 18.w : (isSmallScreen ? 35.w : 45.w),
+                    height: isTablet ? 18.w : (isSmallScreen ? 35.w : 45.w),
                   ),
 
                 if (assetGif != null)
-                  SizedBox(width: isSmallScreen ? 8.w : 12.w),
+                  SizedBox(height: isTablet ? 2.h : (isSmallScreen ? 6.h : 10.h)),
 
-                SizedBox(height: isSmallScreen ? 6.h : 10.h),
-                Flexible(
-                  child: Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: isSmallScreen ? 16.sp : 24.sp,
-                      fontWeight: FontWeight.w900,
-                    ),
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: textColor,
+                    // 🔥 12.sp f l-iPad hiya li ghat3ti l-3bar l-mtwazen bla maytfrg3
+                    fontSize: isTablet ? 12.sp : (isSmallScreen ? 16.sp : 24.sp), 
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
               ],
