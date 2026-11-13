@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.spherebleue.gpaao">
     <application
         android:label="GPAAO"
         android:name="${applicationName}"

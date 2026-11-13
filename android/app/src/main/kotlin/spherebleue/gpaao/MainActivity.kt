@@ -1,4 +1,4 @@
-package com.gpaao.app
+package com.spherebleue.gpaao
 
 import io.flutter.embedding.android.FlutterActivity
 

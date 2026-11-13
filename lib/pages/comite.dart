@@ -154,7 +154,7 @@ class Comite extends StatelessWidget {
                     image: 'assets/groupe/64.jpg',
                   ),
                   Customcard(
-                    prenom: 'Dr Fatima-Zahra',
+                    prenom: 'Dr Fatima Azzahra',
                     nom: 'Zakkouri',
                     desc: 'Spécialiste, secteur libéral, Rabat',
                     image: 'assets/groupe/42.png',
